@@ -185,7 +185,7 @@ module static_top_line (
 );
   localparam integer ROWS = 16;
   localparam integer COLS = 14;
-  localparam integer PIXEL_WIDTH = 10;
+  localparam integer PIXEL_WIDTH = 8;
   localparam integer START_X = 250;
   localparam integer START_Y = 10;
   
@@ -213,8 +213,8 @@ module static_top_line (
   wire [9:0] pattern_y = (pix_y >= START_Y) ? (pix_y - START_Y) : 10'd0;
   wire [9:0] pattern_x = (pix_x >= START_X) ? (pix_x - START_X) : 10'd0;
   
-  wire [4:0] row_index = pattern_y / PIXEL_WIDTH;
-  wire [3:0] col_index = pattern_x / PIXEL_WIDTH;
+  wire [4:0] row_index = pattern_y[9:3];
+  wire [3:0] col_index = pattern_x[9:3];
   
   wire in_bounds = (pix_y >= START_Y) && (pix_y < START_Y + ROWS * PIXEL_WIDTH) &&
                    (pix_x >= START_X) && (pix_x < START_X + COLS * PIXEL_WIDTH);
