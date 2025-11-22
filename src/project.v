@@ -5,7 +5,7 @@
 
 `default_nettype none
 
-module tt_um_vga_example #(
+module tt_um_example #(
   parameter ANIMATION_LENGTH = 110
 )
 (
