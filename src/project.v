@@ -5,7 +5,7 @@
 
 `default_nettype none
 
-module tt_um_example #(
+module tt_um_vga_example #(
   parameter ANIMATION_LENGTH = 110
 )
 (
@@ -118,6 +118,76 @@ module tt_um_example #(
   assign R = video_active ? ((draw_scene || draw_player || line_color) ? 2'b11 : 2'b00) : 0;
   assign G = video_active ? ((draw_scene || line_color) ? 2'b11 : 2'b00) : 0;
   assign B = video_active ? ((draw_scene || line_color) ? 2'b11 : 2'b00) : 0;
+endmodule
+
+
+// ─────────────────────────────────────────────
+// VGA Sync Generator Module (640x480 @ 60Hz)
+// ─────────────────────────────────────────────
+module hvsync_generator(
+    input wire clk,
+    input wire reset,
+    output reg hsync,
+    output reg vsync,
+    output wire display_on,
+    output wire [9:0] hpos,
+    output wire [9:0] vpos
+);
+  // Horizontal timing (640x480 @ 60Hz, 25.175 MHz pixel clock)
+  localparam H_DISPLAY    = 640;
+  localparam H_FRONT      = 16;
+  localparam H_SYNC       = 96;
+  localparam H_BACK       = 48;
+  localparam H_TOTAL      = 800;
+
+  // Vertical timing
+  localparam V_DISPLAY    = 480;
+  localparam V_FRONT      = 10;
+  localparam V_SYNC       = 2;
+  localparam V_BACK       = 33;
+  localparam V_TOTAL      = 525;
+
+  reg [9:0] h_count = 0;
+  reg [9:0] v_count = 0;
+
+  // Horizontal counter
+  always @(posedge clk) begin
+    if (reset) begin
+      h_count <= 0;
+    end else begin
+      if (h_count == H_TOTAL - 1)
+        h_count <= 0;
+      else
+        h_count <= h_count + 1;
+    end
+  end
+
+  // Vertical counter
+  always @(posedge clk) begin
+    if (reset) begin
+      v_count <= 0;
+    end else begin
+      if (h_count == H_TOTAL - 1) begin
+        if (v_count == V_TOTAL - 1)
+          v_count <= 0;
+        else
+          v_count <= v_count + 1;
+      end
+    end
+  end
+
+  // Generate sync signals
+  always @(posedge clk) begin
+    hsync <= (h_count >= (H_DISPLAY + H_FRONT)) && 
+             (h_count < (H_DISPLAY + H_FRONT + H_SYNC));
+    vsync <= (v_count >= (V_DISPLAY + V_FRONT)) && 
+             (v_count < (V_DISPLAY + V_FRONT + V_SYNC));
+  end
+
+  // Display enable
+  assign display_on = (h_count < H_DISPLAY) && (v_count < V_DISPLAY);
+  assign hpos = h_count;
+  assign vpos = v_count;
 endmodule
 
 
