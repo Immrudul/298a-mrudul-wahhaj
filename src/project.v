@@ -67,8 +67,6 @@ module tt_um_example (
       end
   end
 
-  wire [7:0] speed_safe = (speed_reg == 0) ? 1 : speed_reg;
-
   always @(posedge vsync or negedge rst_n) begin 
     if (!rst_n) begin
       x_offset     <= 0;
