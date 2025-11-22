@@ -44,6 +44,21 @@ module tt_um_example (
   reg       game_started = 0;
   reg [7:0] speed_reg = 8'd4;
 
+  reg direction = 1'b0;  // 0 = forward, 1 = reverse
+
+  always @(posedge vsync or negedge rst_n) begin
+      if (!rst_n) begin
+          direction <= 1'b0;
+      end else begin
+          direction <= ui_in[4];   // user controls direction
+      end
+  end
+
+  wire [7:0] speed_safe = (speed_reg == 0) ? 1 : speed_reg;
+
+  wire [9:0] delta =
+      direction ? (400 - speed_safe) : speed_safe;
+
   always @(posedge vsync or negedge rst_n) begin 
       if (!rst_n) begin
           speed_reg <= 8'd4;
@@ -62,7 +77,7 @@ module tt_um_example (
       if (!game_started) begin
         game_started <= 1;   // Start immediately, no animation delay
       end else begin
-        x_offset <= (x_offset + speed_safe) % 400; 
+        x_offset <= (x_offset + delta) % 400;
       end
     end
   end
