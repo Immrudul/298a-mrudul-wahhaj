@@ -1,14 +1,11 @@
 /*
  * Tiny Tapeout VGA: Animated Sine Wave with Auto-Following "UW" Letters
- * Box Hidden Until Game Starts (Sine always visible)
+ * Optimized with fixed constants instead of variable animation widths
  */
 
 `default_nettype none
 
-module tt_um_example #(
-  parameter ANIMATION_LENGTH = 110
-)
-(
+module tt_um_example (
   input  wire [7:0] ui_in,    // Unused inputs
   output wire [7:0] uo_out,   // VGA PMOD outputs
   input  wire [7:0] uio_in,   // Unused bidirectional IOs
@@ -44,22 +41,15 @@ module tt_um_example #(
 
   // ── Animation Control ──────────────────────────────────────
   reg [9:0] x_offset = 0;
-  reg [9:0] animation = 0;
   reg       game_started = 0;
 
   always @(posedge vsync or negedge rst_n) begin 
     if (!rst_n) begin
       x_offset     <= 0;
-      animation    <= 0;
       game_started <= 0;
     end else begin
       if (!game_started) begin
-        if (animation < ANIMATION_LENGTH)
-          animation <= animation + 3;
-        else begin
-          animation    <= ANIMATION_LENGTH;
-          game_started <= 1;   // box appears now
-        end
+        game_started <= 1;   // Start immediately, no animation delay
       end else begin
         x_offset <= (x_offset + 4) % 400; 
       end
@@ -67,27 +57,21 @@ module tt_um_example #(
   end
 
   // ── Scene Drawing ──────────────────────────────────────────
-  wire draw_sin, draw_box;
+  wire draw_sin;
   create_game_scene scene(
     .pix_x(pix_x),
     .pix_y(pix_y),
     .x_offset(x_offset),
-    .animation(animation),
-    .draw_sin(draw_sin),
-    .draw_box(draw_box)
+    .draw_sin(draw_sin)
   );
 
-  wire draw_scene = draw_sin || draw_box;
-
   // ── Auto-Following UW ─────────────────────────────────────
-  localparam integer SCREEN_WIDTH  = 640;
-  localparam integer SCREEN_HEIGHT = 480;
-  localparam integer BAR_WIDTH     = 40;
+  // Fixed constants - no variable calculations
+  localparam [9:0] CENTER_BASE_Y = 10'd290;  // (480/2) + 50
+  localparam [9:0] DOT_X_POS = 10'd200;
+  localparam [9:0] BAR_WIDTH = 10'd40;
 
-  localparam [9:0] CENTER_BASE_Y = (SCREEN_HEIGHT / 2) + 10'd50;
-  wire [9:0] dot_x_pos = 10'd200;
-
-  wire [3:0] addr_player = ((dot_x_pos + x_offset) / BAR_WIDTH) % 10;
+  wire [3:0] addr_player = ((DOT_X_POS + x_offset) / BAR_WIDTH) % 10;
   wire [7:0] sine_y_player;
   sine_lut lut_player(.pos(addr_player), .sin_output(sine_y_player));
 
@@ -111,13 +95,13 @@ module tt_um_example #(
   );
 
   // ── VGA Color Output ───────────────────────────────────────
-  wire line_area = (pix_y >= 10) && (pix_y < 10 + 16 * 10) &&    // Changed 20 to 10
-                   (pix_x >= 250) && (pix_x < 250 + 14 * 10);    // Changed to match START_X = 250
+  wire line_area = (pix_y >= 10) && (pix_y < 170) &&
+                   (pix_x >= 250) && (pix_x < 390);
   wire line_color = line_area && draw_line;
   
-  assign R = video_active ? ((draw_scene || draw_player || line_color) ? 2'b11 : 2'b00) : 0;
-  assign G = video_active ? ((draw_scene || line_color) ? 2'b11 : 2'b00) : 0;
-  assign B = video_active ? ((draw_scene || line_color) ? 2'b11 : 2'b00) : 0;
+  assign R = video_active ? ((draw_sin || draw_player || line_color) ? 2'b11 : 2'b00) : 0;
+  assign G = video_active ? ((draw_sin || line_color) ? 2'b11 : 2'b00) : 0;
+  assign B = video_active ? ((draw_sin || line_color) ? 2'b11 : 2'b00) : 0;
 endmodule
 
 
@@ -192,7 +176,7 @@ endmodule
 
 
 // ─────────────────────────────────────────────
-// Static Top Pattern (16 rows x 14 columns) but uses symmetry for less memory
+// Static Top Pattern (16 rows x 14 columns) with symmetry
 // ─────────────────────────────────────────────
 module static_top_line (
     input  wire [9:0] pix_x,
@@ -254,23 +238,23 @@ module player (
     input  wire show_player,
     output wire draw_player
 );
-  wire [9:0] x_pos = 200;
+  localparam [9:0] X_POS = 10'd200;
 
   // --- "U" shape ---
   wire u_shape;
-  U_shape u(pix_x, pix_y, x_pos, y_pos, u_shape);
+  U_shape u(pix_x, pix_y, X_POS, y_pos, u_shape);
 
-  wire [9:0] w_x = x_pos + 17;
+  localparam [9:0] W_X = 10'd217;  // X_POS + 17
 
   // --- "W" shape ---
   wire w_shape;
-  U_shape w1(pix_x, pix_y, w_x, y_pos, w_shape);
+  U_shape w1(pix_x, pix_y, W_X, y_pos, w_shape);
 
-  wire [9:0] w_x2 = w_x + 8;
+  localparam [9:0] W_X2 = 10'd225;  // W_X + 8
 
   // --- "W" shape ---
   wire w_shape2;
-  U_shape w2(pix_x, pix_y, w_x2, y_pos, w_shape2);
+  U_shape w2(pix_x, pix_y, W_X2, y_pos, w_shape2);
 
   assign draw_player = show_player && (u_shape || w_shape || w_shape2);
 endmodule
@@ -305,47 +289,36 @@ module U_shape (
 endmodule
 
 // ─────────────────────────────────────────────
-// Scene: Moving sine waves inside bounding box
+// Scene: Moving sine waves with fixed constants
 // ─────────────────────────────────────────────
-module create_game_scene #(
-    parameter SCREEN_WIDTH  = 640,
-    parameter SCREEN_HEIGHT = 480
-)
-( 
+module create_game_scene (
     input  wire [9:0] pix_x,
     input  wire [9:0] pix_y,
     input  wire [9:0] x_offset,
-    input  wire [9:0] animation,
-    output wire draw_sin,
-    output wire draw_box
+    output wire draw_sin
 );
 
-  wire [9:0] width_thing  = animation << 1;
-  wire [9:0] height_thing = animation;
+  // Fixed constants - no calculations based on animation
+  localparam [9:0] TOP_X = 10'd100;
+  localparam [9:0] TOP_Y = 10'd180;
+  localparam [9:0] BOTTOM_X = 10'd540;
+  localparam [9:0] BOTTOM_Y = 10'd400;
+  localparam [9:0] BAR_WIDTH = 10'd40;
+  localparam [9:0] VISIBLE_WIDTH = 10'd25;
+  localparam [9:0] HEIGHT = 10'd60;
 
   double_sin sin(
     .pix_x(pix_x),
     .pix_y(pix_y),
     .x_offset(x_offset),
-    .top_x(SCREEN_WIDTH/2  - width_thing),
-    .top_y(SCREEN_HEIGHT/2 - height_thing + 50),
-    .bottum_x(SCREEN_WIDTH/2  + width_thing),
-    .bottum_y(SCREEN_HEIGHT/2 + height_thing + 50),
-    .bar_width(40),
-    .visible_width(25),
-    .height(60),
+    .top_x(TOP_X),
+    .top_y(TOP_Y),
+    .bottum_x(BOTTOM_X),
+    .bottum_y(BOTTOM_Y),
+    .bar_width(BAR_WIDTH),
+    .visible_width(VISIBLE_WIDTH),
+    .height(HEIGHT),
     .draw_double_sin(draw_sin)
-  );
-
-  bounding_box box(
-    .pix_x(pix_x),
-    .pix_y(pix_y),
-    .top_x(SCREEN_WIDTH/2  - width_thing),
-    .top_y(SCREEN_HEIGHT/2 - height_thing + 50),
-    .bottum_x(SCREEN_WIDTH/2  + width_thing),
-    .bottum_y(SCREEN_HEIGHT/2 + height_thing + 50),
-    .width(10),
-    .draw_box(draw_box)
   );
 
 endmodule
@@ -406,28 +379,4 @@ module sine_lut (
     sine_table[9] = 40;
   end
   always @(*) sin_output = sine_table[pos];
-endmodule
-
-
-// ─────────────────────────────────────────────
-// Bounding Box
-// ─────────────────────────────────────────────
-module bounding_box (
-    input  wire [9:0] pix_x,
-    input  wire [9:0] pix_y,   
-    input  wire [9:0] top_x,
-    input  wire [9:0] top_y,
-    input  wire [9:0] bottum_x,
-    input  wire [9:0] bottum_y,
-    input  wire [3:0] width,
-    output wire draw_box  
-);
-
-  wire [9:0] width_10 = {6'b0, width};
-
-  assign draw_box =
-    ((pix_y >= top_y && pix_y < top_y + width_10) && (pix_x >= top_x && pix_x <= bottum_x)) ||
-    ((pix_y <= bottum_y && pix_y > bottum_y - width_10) && (pix_x >= top_x && pix_x <= bottum_x)) ||
-    ((pix_x >= top_x && pix_x < top_x + width_10) && (pix_y >= top_y && pix_y <= bottum_y)) ||
-    ((pix_x <= bottum_x && pix_x > bottum_x - width_10) && (pix_y >= top_y && pix_y <= bottum_y));
 endmodule
