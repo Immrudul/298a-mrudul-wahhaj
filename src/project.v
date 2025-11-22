@@ -42,6 +42,17 @@ module tt_um_example (
   // ── Animation Control ──────────────────────────────────────
   reg [9:0] x_offset = 0;
   reg       game_started = 0;
+  reg [7:0] speed_reg = 8'd4;
+
+  always @(posedge vsync or negedge rst_n) begin 
+      if (!rst_n) begin
+          speed_reg <= 8'd4;
+      end else begin
+          speed_reg <= {4'b0000, ui_in[3:0]};  // read switches for speed
+      end
+  end
+
+  wire [7:0] speed_safe = (speed_reg == 0) ? 1 : speed_reg;
 
   always @(posedge vsync or negedge rst_n) begin 
     if (!rst_n) begin
@@ -51,7 +62,7 @@ module tt_um_example (
       if (!game_started) begin
         game_started <= 1;   // Start immediately, no animation delay
       end else begin
-        x_offset <= (x_offset + 4) % 400; 
+        x_offset <= (x_offset + speed_safe) % 400; 
       end
     end
   end
