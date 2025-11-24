@@ -27,6 +27,15 @@ module tb ();
   wire VGND = 1'b0;
 `endif
 
+   reg  [3:0] tb_pos;
+   wire [7:0] tb_sin_output;
+
+    // === INSTANTIATE sine_lut DIRECTLY ===
+    sine_lut lut_for_test (
+        .pos(tb_pos),
+        .sin_output(tb_sin_output)
+    );
+
   // Replace tt_um_example with your module name:
   tt_um_example user_project (
 
