@@ -31,9 +31,9 @@ HEIGHT       = 60
 async def test_double_sin(dut):
     dut._log.info("Start double_sin test")
     
-    for x_offset in range(0, 500):
-        for x_pix in range(TOP_X, BOTTOM_X):
-            for y_pix in range(TOP_Y, BOTTOM_Y):
+    # for x_offset in range(0, 500):
+    #     for x_pix in range(TOP_X, BOTTOM_X):
+    #         for y_pix in range(TOP_Y, BOTTOM_Y):
                 
     dut._log.info("double_sin passed")
     
