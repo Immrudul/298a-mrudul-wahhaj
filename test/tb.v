@@ -27,10 +27,44 @@ module tb ();
   wire VGND = 1'b0;
 `endif
 
+
+   // ----------------------------------------
+  // Testing For double_sin
+  // ----------------------------------------
+  reg  [9:0] tb_pix_x;
+  reg  [9:0] tb_pix_y;
+  reg  [9:0] tb_x_offset;
+   
+  localparam [9:0] TOP_X        = 10'd100;
+  localparam [9:0] TOP_Y        = 10'd180;
+  localparam [9:0] BOTTOM_X     = 10'd540;
+  localparam [9:0] BOTTOM_Y     = 10'd400;
+  localparam [9:0] BAR_WIDTH    = 10'd40;
+  localparam [9:0] VISIBLE_WIDTH= 10'd25;
+  localparam [9:0] HEIGHT       = 10'd60;
+
+  wire tb_draw_double_sin;
+
+  double_sin dut_double_sin (
+      .pix_x(tb_pix_x),
+      .pix_y(tb_pix_y),
+      .x_offset(tb_x_offset),
+      .top_x(TOP_X),
+      .top_y(TOP_Y),
+      .bottum_x(BOTTOM_X),
+      .bottum_y(BOTTOM_Y),
+      .bar_width(BAR_WIDTH),
+      .visible_width(VISIBLE_WIDTH),
+      .height(HEIGHT),
+      .draw_double_sin(tb_draw_double_sin)
+  );
+
+  // ----------------------------------------
+  // Testing sine_lut
+  // ----------------------------------------
    reg  [3:0] tb_pos;
    wire [7:0] tb_sin_output;
-
-    // === INSTANTIATE sine_lut DIRECTLY ===
+   
     sine_lut lut_for_test (
         .pos(tb_pos),
         .sin_output(tb_sin_output)
