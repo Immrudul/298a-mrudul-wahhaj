@@ -19,6 +19,24 @@ SINE_VALUES_TABLE = {
     9: 40
 }
 
+TOP_X        = 100
+TOP_Y        = 180
+BOTTOM_X     = 540
+BOTTOM_Y     = 400
+BAR_WIDTH    = 40
+VISIBLE_WIDTH= 25
+HEIGHT       = 60
+
+@cocotb.test()
+async def test_double_sin(dut):
+    dut._log.info("Start double_sin test")
+    
+    for x_offset in range(0, 500):
+        for x_pix in range(TOP_X, BOTTOM_X):
+            for y_pix in range(TOP_Y, BOTTOM_Y):
+                
+    dut._log.info("double_sin passed")
+    
 
 @cocotb.test()
 async def test_sine_lut(dut):
