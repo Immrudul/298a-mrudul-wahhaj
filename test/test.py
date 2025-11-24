@@ -5,36 +5,35 @@ import cocotb
 from cocotb.clock import Clock
 from cocotb.triggers import ClockCycles
 
+SINE_VALUES_TABLE = {
+    0: 50,
+    1: 40,
+    2: 30,
+    3: 20,
+    4: 10,
+    5: 0,
+    6: 10,
+    7: 20,
+    8: 30,
+    9: 40
+}
+
 
 @cocotb.test()
-async def test_project(dut):
-    dut._log.info("Start")
+async def test_sine_lut(dut):
+    dut._log.info("Start sine_lut test")
 
-    # Set the clock period to 10 us (100 KHz)
-    clock = Clock(dut.clk, 10, unit="us")
-    cocotb.start_soon(clock.start())
+    # Test only defined LUT positions 0–9
+    for index, value in SINE_VALUES_TABLE.items():
+        dut.pos.value = index
 
-    # Reset
-    dut._log.info("Reset")
-    dut.ena.value = 1
-    dut.ui_in.value = 0
-    dut.uio_in.value = 0
-    dut.rst_n.value = 0
-    await ClockCycles(dut.clk, 10)
-    dut.rst_n.value = 1
+        # No clock in this module → allow time to settle
+        await Timer(1, units="ns")
 
-    dut._log.info("Test project behavior")
+        actual = int(dut.sin_output.value)
+        dut._log.info(f"pos={index} → sin_output={actual}, value={value}")
 
-    # Set the input values you want to test
-    dut.ui_in.value = 20
-    dut.uio_in.value = 30
+        assert actual == value, \
+            f"ERROR: For index {index}, got {actual}, value {value}"
 
-    # Wait for one clock cycle to see the output values
-    await ClockCycles(dut.clk, 1)
-
-    # The following assersion is just an example of how to check the output values.
-    # Change it to match the actual expected output of your module:
-    assert dut.uo_out.value == 50
-
-    # Keep testing the module by changing the input values, waiting for
-    # one or more clock cycles, and asserting the expected output values.
+    dut._log.info("sine_lut passed")
