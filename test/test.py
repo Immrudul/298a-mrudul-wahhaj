@@ -46,7 +46,7 @@ async def test_double_sin(dut):
 
                 actual = bool(dut.draw_double_sin.value)
 
-                assert actual == (correct_y_pos and correct_x_pos) \
+                assert actual == (correct_y_pos and correct_x_pos), \
                 f"ERROR: For x_offset {x_offset}, got {actual}, expected {correct_y_pos and correct_x_pos} for coords: ({pix_x}, {pix_y})"
                 
                 
