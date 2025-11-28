@@ -31,9 +31,9 @@ module tb ();
    // ----------------------------------------
   // Testing For double_sin
   // ----------------------------------------
-  reg  [9:0] tb_pix_x;
-  reg  [9:0] tb_pix_y;
-  reg  [9:0] tb_x_offset;
+  reg  [9:0] pix_x;
+  reg  [9:0] pix_y;
+  reg  [9:0] x_offset;
    
   localparam [9:0] TOP_X        = 10'd100;
   localparam [9:0] TOP_Y        = 10'd180;
@@ -43,12 +43,12 @@ module tb ();
   localparam [9:0] VISIBLE_WIDTH= 10'd25;
   localparam [9:0] HEIGHT       = 10'd60;
 
-  wire tb_draw_double_sin;
+  wire draw_double_sin;
 
   double_sin dut_double_sin (
-      .pix_x(tb_pix_x),
-      .pix_y(tb_pix_y),
-      .x_offset(tb_x_offset),
+      .pix_x(pix_x),
+      .pix_y(pix_y),
+      .x_offset(x_offset),
       .top_x(TOP_X),
       .top_y(TOP_Y),
       .bottum_x(BOTTOM_X),
@@ -56,7 +56,7 @@ module tb ();
       .bar_width(BAR_WIDTH),
       .visible_width(VISIBLE_WIDTH),
       .height(HEIGHT),
-      .draw_double_sin(tb_draw_double_sin)
+      .draw_double_sin(draw_double_sin)
   );
 
   // ----------------------------------------
