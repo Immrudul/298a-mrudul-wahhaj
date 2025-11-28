@@ -50,8 +50,8 @@ async def test_U_shape(dut):
     
     for y in range(0, height):
         for x in range(0, width):
-            dut.pix_x.value = 100 - width +  x
-            dut.pix_y.value = 100 - height + y
+            dut.pix_x.value = 100 - 5 +  x
+            dut.pix_y.value = 100 - 10 + y
 
             await Timer(1, units="ns")
 
