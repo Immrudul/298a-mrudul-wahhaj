@@ -44,17 +44,18 @@ async def test_U_shape(dut):
     
     height = len(expected_U)
     width = len(expected_U[0])
+
+    dut.x_pos.value = 100
+    dut.y_pos.value = 100
     
     for y in range(0, height):
         for x in range(0, width):
-            dut.x_pos.value = 100
-            dut.y_pos.value = 100
-            dut.pix_x.value = 100 - width//2 +  x
-            dut.pix_y.value = 100 - height//2 + y
+            dut.pix_x.value = 100 - width +  x
+            dut.pix_y.value = 100 - height + y
 
             await Timer(1, units="ns")
 
-            actual = bool(dut.draw_double_sin.value)
+            actual = bool(dut.draw_U.value)
 
             assert actual == bool(expected_U[y][x]), \
                 f"ERROR: For for coords: ({x}, {y}, got {actual}, expected {bool(expected_U[y][x])})"
