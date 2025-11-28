@@ -32,8 +32,8 @@ async def test_double_sin(dut):
     dut._log.info("Start double_sin test")
     
     for x_offset in range(0, 400):
-        for pix_x in range(TOP_X, BOTTOM_X):
-            for pix_y in range(TOP_Y, BOTTOM_Y):
+        for pix_x in range(TOP_X+1, BOTTOM_X):
+            for pix_y in range(TOP_Y+1, BOTTOM_Y):
                 sin_height = SINE_VALUES_TABLE[((pix_x + x_offset)//BAR_WIDTH) % 10]
                 correct_y_pos = (TOP_Y + 50 - sin_height + HEIGHT > pix_y) or (pix_y > BOTTOM_Y - sin_height - HEIGHT)
                 correct_x_pos = (pix_x + x_offset) % BAR_WIDTH < VISIBLE_WIDTH
