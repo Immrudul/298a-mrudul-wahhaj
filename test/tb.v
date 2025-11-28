@@ -34,6 +34,18 @@ module tb ();
   reg  [9:0] pix_x;
   reg  [9:0] pix_y;
   reg  [9:0] x_offset;
+
+  reg  [9:0] x_pos;
+  reg  [9:0] y_pos;
+  reg  draw_U;
+
+   U_shape single_u(
+      .pix_x(pix_x),
+      .pix_y(pix_y),
+      .x_pos(x_pos),
+      .y_pos(y_pos),
+      .draw_U(draw_U)
+   );
    
   localparam [9:0] TOP_X        = 10'd100;
   localparam [9:0] TOP_Y        = 10'd180;
