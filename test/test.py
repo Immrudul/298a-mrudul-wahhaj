@@ -42,14 +42,14 @@ async def test_double_sin(dut):
                 dut.pix_y.value = pix_y
                 dut.x_offset.value = x_offset
 
-                #await Timer(1, units="ns")
+                await Timer(1, units="ns")
 
                 actual = bool(dut.draw_double_sin.value)
 
                 assert actual == (correct_y_pos and correct_x_pos), \
                 f"ERROR: For x_offset {x_offset}, got {actual}, expected {correct_y_pos and correct_x_pos} for coords: ({pix_x}, {pix_y})"
 
-            dut._log.info("on offset: {x_offset}, on row: {pix_x}")
+            dut._log.info(f"on offset: {x_offset}, on row: {pix_x}")
                 
                 
     dut._log.info("double_sin passed")
