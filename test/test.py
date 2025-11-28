@@ -31,7 +31,7 @@ HEIGHT       = 60
 async def test_double_sin(dut):
     dut._log.info("Start double_sin test")
     
-    for x_offset in range(0, 2):
+    for x_offset in range(0, 400, 20):
         for pix_x in range(TOP_X+1, BOTTOM_X):
             for pix_y in range(TOP_Y+1, BOTTOM_Y):
                 sin_height = SINE_VALUES_TABLE[((pix_x + x_offset)//BAR_WIDTH) % 10]
