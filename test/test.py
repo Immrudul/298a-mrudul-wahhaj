@@ -31,9 +31,24 @@ HEIGHT       = 60
 async def test_double_sin(dut):
     dut._log.info("Start double_sin test")
     
-    # for x_offset in range(0, 500):
-    #     for x_pix in range(TOP_X, BOTTOM_X):
-    #         for y_pix in range(TOP_Y, BOTTOM_Y):
+    for x_offset in range(0, 400):
+        for pix_x in range(TOP_X, BOTTOM_X):
+            for pix_y in range(TOP_Y, BOTTOM_Y):
+                sin_height = SINE_VALUES_TABLE[((pix_x + x_offset)//BAR_WIDTH) % 10]
+                correct_y_pos = (TOP_Y + 50 - sin_height + HEIGHT > pix_y) or (pix_y > BOTTOM_Y - sin_height - HEIGHT)
+                correct_x_pos = (pix_x + x_offset) % BAR_WIDTH < VISIBLE_WIDTH
+
+                dut.pix_x.value = pix_x
+                dut.pix_y.value = pix_y
+                dut.x_offset.value = x_offset
+
+                await Timer(1, units="ns")
+
+                actual = bool(dut.draw_double_sin.value)
+
+                assert actual == (correct_y_pos and correct_x_pos) \
+                f"ERROR: For x_offset {x_offset}, got {actual}, expected {correct_y_pos and correct_x_pos} for coords: ({pix_x}, {pix_y})"
+                
                 
     dut._log.info("double_sin passed")
     
