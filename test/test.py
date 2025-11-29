@@ -38,6 +38,45 @@ expected_U = [
     [ 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0 ]
 ]
 
+expected_static_top_line = [
+    [0,0,0,0,0,1,1,1,1,0,0,0,0,0],
+    [0,0,0,0,1,0,0,0,0,1,0,0,0,0],
+    [0,0,0,1,0,0,0,0,0,0,1,0,0,0],
+    [0,0,0,1,0,1,0,0,1,0,1,0,0,0],
+    [0,0,0,1,0,0,1,1,0,0,1,0,0,0],
+    [0,0,0,1,1,1,1,1,1,1,1,1,0,0],
+    [0,0,1,0,0,1,1,1,1,0,0,1,0,0],
+    [0,1,0,0,0,0,0,0,0,0,0,0,1,0],
+    [1,0,0,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,0,0,0,0,0,0,1],
+    [0,1,0,1,0,0,0,0,0,0,0,1,0,1],
+    [0,0,1,0,0,0,0,0,0,0,1,0,0,0],
+    [0,0,0,1,0,0,0,0,0,1,0,0,0,0],
+    [0,0,1,0,0,0,1,1,0,0,1,0,0,0],
+    [0,0,0,1,1,1,0,0,0,1,1,1,0,0]
+]
+
+@cocotb.test()
+async def test_static_top_line(dut):
+    dut._log.info("Start static_top_line test")
+    height = len(expected_static_top_line)
+    width = len(expected_static_top_line[0])
+
+    for y in range(10, height*8):
+        for x in range(250, width*8):
+            dut.pix_x.value = x
+            dut.pix_y.value = y
+
+            await Timer(1, units="ns")
+            
+            actual = bool(dut.draw_line.value)
+
+            assert actual == bool(expected_static_top_line[y//8][x//8]), \
+                f"ERROR: For for coords: ({x}, {y}, got {actual}, expected {bool(expected_static_top_line[y//8][x//8])})"
+    
+    dut._log.info("static_top_line passed")
+
 async def u_shape_helper(dut, x_coord, y_coord, isUW):
     height = len(expected_U)
     width = len(expected_U[0])
