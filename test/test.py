@@ -6,9 +6,6 @@ from cocotb.clock import Clock
 from cocotb.triggers import ClockCycles
 from cocotb.triggers import Timer
 
-import os
-# GL = os.getenv("GL") == "1"
-
 # SINE_VALUES_TABLE = {
 #     0: 50,
 #     1: 40,
@@ -182,9 +179,6 @@ import os
 
 @cocotb.test()
 async def test_sine_lut(dut):
-    if GL:
-        raise cocotb.skip("Skipping player test in gate-level simulation.")
-    
     dut._log.info("Start sine_lut test")
 
     for index, value in SINE_VALUES_TABLE.items():
