@@ -47,12 +47,6 @@ module tb ();
   );
 
 
-
- `ifndef GL_TEST
-
-  // ----------------------------------------
-  // Testing For double_sin
-  // ----------------------------------------
   reg  [9:0] pix_x;
   reg  [9:0] pix_y;
   reg  [9:0] x_offset;
@@ -60,14 +54,26 @@ module tb ();
   reg  [9:0] x_pos;
   reg  [9:0] y_pos;
 
-  reg draw_line;
+ reg  [3:0] tb_pos;
+ wire [7:0] tb_sin_output;
+
+ reg draw_line;
+ reg draw_player;
+ reg draw_U;
+ wire draw_double_sin;
+   
+
+ `ifndef GL_TEST
+
+  // ----------------------------------------
+  // Testing For double_sin
+  // ----------------------------------------
   static_top_line top_line(
     .pix_x(pix_x),
     .pix_y(pix_y),
     .draw_line(draw_line)
   );
 
-  reg draw_player;
   player p(
     .pix_x(pix_x),
     .pix_y(pix_y),
@@ -75,9 +81,7 @@ module tb ();
     .show_player(1),
     .draw_player(draw_player)
   );
-
-  reg draw_U;
-
+   
   U_shape single_u(
       .pix_x(pix_x),
       .pix_y(pix_y),
@@ -93,8 +97,6 @@ module tb ();
   localparam [9:0] BAR_WIDTH    = 10'd40;
   localparam [9:0] VISIBLE_WIDTH= 10'd25;
   localparam [9:0] HEIGHT       = 10'd60;
-
-  wire draw_double_sin;
 
   double_sin dut_double_sin (
       .pix_x(pix_x),
@@ -113,8 +115,6 @@ module tb ();
   // ----------------------------------------
   // Testing sine_lut
   // ----------------------------------------
-  reg  [3:0] tb_pos;
-  wire [7:0] tb_sin_output;
 
   sine_lut lut_for_test (
       .pos(tb_pos),
