@@ -38,7 +38,7 @@ expected_U = [
     [ 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0 ]
 ]
 
-def test_U_at(x_coord, y_coord):
+async def test_U_at(x_coord, y_coord):
     height = len(expected_U)
     width = len(expected_U[0])
 
