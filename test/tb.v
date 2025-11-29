@@ -38,6 +38,13 @@ module tb ();
   reg  [9:0] x_pos;
   reg  [9:0] y_pos;
 
+  reg draw_line;
+  static_top_line top_line(
+    .pix_x(pix_x),
+    .pix_y(pix_y),
+    .draw_line(draw_line)
+  );
+
   reg draw_player;
   player p(
     .pix_x(pix_x),
