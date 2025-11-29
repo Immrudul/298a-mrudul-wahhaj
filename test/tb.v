@@ -54,8 +54,8 @@ module tb ();
 //   reg  [9:0] x_pos;
 //   reg  [9:0] y_pos;
 
-//  reg  [3:0] tb_pos;
-//  wire [7:0] tb_sin_output;
+ reg  [3:0] pos;
+ wire [7:0] sin_output;
 
 //  reg draw_line;
 //  reg draw_player;
@@ -116,10 +116,10 @@ module tb ();
 //   // Testing sine_lut
 //   // ----------------------------------------
 
-//   sine_lut lut_for_test (
-//       .pos(tb_pos),
-//       .sin_output(tb_sin_output)
-//   );
+  sine_lut lut_for_test (
+      .pos(pos),
+      .sin_output(sin_output)
+  );
 
 // `endif
 
