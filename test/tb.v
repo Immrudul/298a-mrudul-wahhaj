@@ -63,7 +63,7 @@ module tb ();
 //  wire draw_double_sin;
    
 
-//  `ifndef GL_TEST
+ `ifndef GL_TEST
 
 //   // ----------------------------------------
 //   // Testing For double_sin
@@ -121,6 +121,6 @@ module tb ();
       .sin_output(sin_output)
   );
 
-// `endif
+`endif
 
 endmodule
