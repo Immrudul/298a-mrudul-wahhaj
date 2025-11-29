@@ -75,7 +75,7 @@ async def test_player(dut):
     await u_shape_helper(dut, x_coord, y_coord, True)
     dut._log.info("Passed 2 U")
 
-    x_coord += 9
+    x_coord += 10
 
     await u_shape_helper(dut, x_coord, y_coord, True)
     dut._log.info("Passed 3 U")
