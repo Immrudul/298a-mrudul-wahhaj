@@ -73,7 +73,7 @@ async def test_player(dut):
 
     u_shape_helper(x_coord, y_coord, True)
 
-    x_coord += 8
+    x_coord += 9
 
     u_shape_helper(x_coord, y_coord, True)
 
