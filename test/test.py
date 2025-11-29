@@ -52,7 +52,7 @@ async def u_shape_helper(x_coord, y_coord, isUW):
 
             await Timer(1, units="ns")
 
-            actual = !isUW? bool(dut.draw_U.value): bool(dut.draw_player.value)
+            actual = bool(dut.draw_U.value) if not isUW else bool(dut.draw_player.value)
 
             assert actual == bool(expected_U[y][x]), \
                 f"ERROR: For for coords: ({x}, {y}, got {actual}, expected {bool(expected_U[y][x])})"
