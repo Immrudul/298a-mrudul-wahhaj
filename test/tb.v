@@ -35,6 +35,16 @@ module tb ();
   reg  [9:0] pix_y;
   reg  [9:0] x_offset;
 
+  reg  [9:0] player_y_pos;
+  reg draw_player;
+  player p(
+    .pix_x(pix_x),
+    .pix_y(pix_y),
+    .y_pos(player_y_pos),
+    .show_player(1),
+    .draw_player(draw_player)
+  );
+
   reg  [9:0] x_pos;
   reg  [9:0] y_pos;
   reg  draw_U;
