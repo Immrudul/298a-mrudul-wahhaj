@@ -1,18 +1,15 @@
 `default_nettype none
 `timescale 1ns / 1ps
-
 /* This testbench just instantiates the module and makes some convenient wires
    that can be driven / tested by the cocotb test.py.
 */
 module tb ();
-
   // Dump the signals to a FST file. You can view it with gtkwave or surfer.
   initial begin
     $dumpfile("tb.fst");
     $dumpvars(0, tb);
     #1;
   end
-
   // Wire up the inputs and outputs:
   reg clk;
   reg rst_n;
@@ -27,24 +24,21 @@ module tb ();
   wire VGND = 1'b0;
 `endif
 
-
-   // ----------------------------------------
+`ifndef GL_TEST
+  // ----------------------------------------
   // Testing For double_sin
   // ----------------------------------------
   reg  [9:0] pix_x;
   reg  [9:0] pix_y;
   reg  [9:0] x_offset;
-
   reg  [9:0] x_pos;
   reg  [9:0] y_pos;
-
   reg draw_line;
   static_top_line top_line(
     .pix_x(pix_x),
     .pix_y(pix_y),
     .draw_line(draw_line)
   );
-
   reg draw_player;
   player p(
     .pix_x(pix_x),
@@ -53,10 +47,8 @@ module tb ();
     .show_player(1),
     .draw_player(draw_player)
   );
-
    
   reg  draw_U;
-
    U_shape single_u(
       .pix_x(pix_x),
       .pix_y(pix_y),
@@ -72,9 +64,7 @@ module tb ();
   localparam [9:0] BAR_WIDTH    = 10'd40;
   localparam [9:0] VISIBLE_WIDTH= 10'd25;
   localparam [9:0] HEIGHT       = 10'd60;
-
   wire draw_double_sin;
-
   double_sin dut_double_sin (
       .pix_x(pix_x),
       .pix_y(pix_y),
@@ -88,7 +78,6 @@ module tb ();
       .height(HEIGHT),
       .draw_double_sin(draw_double_sin)
   );
-
   // ----------------------------------------
   // Testing sine_lut
   // ----------------------------------------
@@ -99,16 +88,15 @@ module tb ();
         .pos(tb_pos),
         .sin_output(tb_sin_output)
     );
+`endif
 
   // Replace tt_um_example with your module name:
   tt_um_example user_project (
-
       // Include power ports for the Gate Level test:
 `ifdef GL_TEST
       .VPWR(VPWR),
       .VGND(VGND),
 `endif
-
       .ui_in  (ui_in),    // Dedicated inputs
       .uo_out (uo_out),   // Dedicated outputs
       .uio_in (uio_in),   // IOs: Input path
@@ -118,5 +106,4 @@ module tb ();
       .clk    (clk),      // clock
       .rst_n  (rst_n)     // not reset
   );
-
 endmodule
