@@ -6,18 +6,18 @@ from cocotb.clock import Clock
 from cocotb.triggers import ClockCycles
 from cocotb.triggers import Timer
 
-# SINE_VALUES_TABLE = {
-#     0: 50,
-#     1: 40,
-#     2: 30,
-#     3: 20,
-#     4: 10,
-#     5: 0,
-#     6: 10,
-#     7: 20,
-#     8: 30,
-#     9: 40
-# }
+SINE_VALUES_TABLE = {
+    0: 50,
+    1: 40,
+    2: 30,
+    3: 20,
+    4: 10,
+    5: 0,
+    6: 10,
+    7: 20,
+    8: 30,
+    9: 40
+}
 
 # expected_U = [
 #     [ 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1 ], 
