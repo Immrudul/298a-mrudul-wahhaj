@@ -4,7 +4,7 @@
  */
 
 `default_nettype none
-`ifndef GL_TEST
+
 module tt_um_example (
   input  wire [7:0] ui_in,    // Unused inputs
   output wire [7:0] uo_out,   // VGA PMOD outputs
@@ -127,7 +127,7 @@ module tt_um_example (
   assign G = video_active ? ((draw_sin || line_color) ? 2'b11 : 2'b00) : 0;
   assign B = video_active ? ((draw_sin || line_color) ? 2'b11 : 2'b00) : 0;
 endmodule
-`endif
+
 
 // ─────────────────────────────────────────────
 // VGA Sync Generator Module (640x480 @ 60Hz)
