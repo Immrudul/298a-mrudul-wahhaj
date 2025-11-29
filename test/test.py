@@ -38,7 +38,7 @@ expected_U = [
     [ 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0 ]
 ]
 
-async def u_shape_helper(x_coord, y_coord, isUW):
+async def u_shape_helper(dut, x_coord, y_coord, isUW):
     height = len(expected_U)
     width = len(expected_U[0])
 
@@ -67,15 +67,15 @@ async def test_player(dut):
     x_coord = 200
     y_coord = 100
     
-    u_shape_helper(x_coord, y_coord, True)
+    await u_shape_helper(dut, x_coord, y_coord, True)
 
     x_coord += 17
 
-    u_shape_helper(x_coord, y_coord, True)
+    await u_shape_helper(dut, x_coord, y_coord, True)
 
-    x_coord += 9
+    x_coord += 8
 
-    u_shape_helper(x_coord, y_coord, True)
+    await u_shape_helper(dut, x_coord, y_coord, True)
 
     dut._log.info("player passed")
 
@@ -83,7 +83,7 @@ async def test_player(dut):
 async def test_U_shape(dut):
     dut._log.info("Start U_shape test")
     
-    u_shape_helper(100, 100, False)
+    await u_shape_helper(dut, 100, 100, False)
     
     dut._log.info("U_shape passed")
 
