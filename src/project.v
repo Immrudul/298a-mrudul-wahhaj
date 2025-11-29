@@ -274,7 +274,7 @@ module player (
   wire w_shape;
   U_shape w1(pix_x, pix_y, W_X, y_pos, w_shape);
 
-  localparam [9:0] W_X2 = 10'd225;  // W_X + 8
+  localparam [9:0] W_X2 = 10'd226;  // W_X + 9
 
   // --- "W" shape ---
   wire w_shape2;
