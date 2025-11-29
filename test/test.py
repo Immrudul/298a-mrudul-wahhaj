@@ -38,20 +38,17 @@ expected_U = [
     [ 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0 ]
 ]
 
-@cocotb.test()
-async def test_U_shape(dut):
-    dut._log.info("Start U_shape test")
-    
+def test_U_at(x_coord, y_coord):
     height = len(expected_U)
     width = len(expected_U[0])
 
-    dut.x_pos.value = 100
-    dut.y_pos.value = 100
+    dut.x_pos.value = x_coord
+    dut.y_pos.value = y_coord
     
     for y in range(0, height):
         for x in range(0, width):
-            dut.pix_x.value = 100 - 5 +  x
-            dut.pix_y.value = 100 - 10 + y
+            dut.pix_x.value = x_coord - 5 +  x
+            dut.pix_y.value = y_coord - 10 + y
 
             await Timer(1, units="ns")
 
@@ -59,6 +56,19 @@ async def test_U_shape(dut):
 
             assert actual == bool(expected_U[y][x]), \
                 f"ERROR: For for coords: ({x}, {y}, got {actual}, expected {bool(expected_U[y][x])})"
+@cocotb.test()
+async def test_player(dut):
+    dut._log.info("Start player test")
+
+    
+
+    dut._log.info("player passed")
+
+@cocotb.test()
+async def test_U_shape(dut):
+    dut._log.info("Start U_shape test")
+    
+    test_U_at(100, 100)
     
     dut._log.info("U_shape passed")
 
