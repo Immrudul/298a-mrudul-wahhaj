@@ -169,7 +169,6 @@ async def test_double_sin(dut):
 async def test_sine_lut(dut):
     dut._log.info("Start sine_lut test")
 
-    Test only defined LUT positions 0–9
     for index, value in SINE_VALUES_TABLE.items():
         dut.tb_pos.value = index
 
