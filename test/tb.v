@@ -47,80 +47,80 @@ module tb ();
   );
 
 
-  reg  [9:0] pix_x;
-  reg  [9:0] pix_y;
-  reg  [9:0] x_offset;
+//   reg  [9:0] pix_x;
+//   reg  [9:0] pix_y;
+//   reg  [9:0] x_offset;
 
-  reg  [9:0] x_pos;
-  reg  [9:0] y_pos;
+//   reg  [9:0] x_pos;
+//   reg  [9:0] y_pos;
 
- reg  [3:0] tb_pos;
- wire [7:0] tb_sin_output;
+//  reg  [3:0] tb_pos;
+//  wire [7:0] tb_sin_output;
 
- reg draw_line;
- reg draw_player;
- reg draw_U;
- wire draw_double_sin;
+//  reg draw_line;
+//  reg draw_player;
+//  reg draw_U;
+//  wire draw_double_sin;
    
 
- `ifndef GL_TEST
+//  `ifndef GL_TEST
 
-  // ----------------------------------------
-  // Testing For double_sin
-  // ----------------------------------------
-  static_top_line top_line(
-    .pix_x(pix_x),
-    .pix_y(pix_y),
-    .draw_line(draw_line)
-  );
+//   // ----------------------------------------
+//   // Testing For double_sin
+//   // ----------------------------------------
+//   static_top_line top_line(
+//     .pix_x(pix_x),
+//     .pix_y(pix_y),
+//     .draw_line(draw_line)
+//   );
 
-  player p(
-    .pix_x(pix_x),
-    .pix_y(pix_y),
-    .y_pos(y_pos),
-    .show_player(1),
-    .draw_player(draw_player)
-  );
+//   player p(
+//     .pix_x(pix_x),
+//     .pix_y(pix_y),
+//     .y_pos(y_pos),
+//     .show_player(1),
+//     .draw_player(draw_player)
+//   );
    
-  U_shape single_u(
-      .pix_x(pix_x),
-      .pix_y(pix_y),
-      .x_pos(x_pos),
-      .y_pos(y_pos),
-      .draw_U(draw_U)
-  );
+//   U_shape single_u(
+//       .pix_x(pix_x),
+//       .pix_y(pix_y),
+//       .x_pos(x_pos),
+//       .y_pos(y_pos),
+//       .draw_U(draw_U)
+//   );
 
-  localparam [9:0] TOP_X        = 10'd100;
-  localparam [9:0] TOP_Y        = 10'd180;
-  localparam [9:0] BOTTOM_X     = 10'd540;
-  localparam [9:0] BOTTOM_Y     = 10'd400;
-  localparam [9:0] BAR_WIDTH    = 10'd40;
-  localparam [9:0] VISIBLE_WIDTH= 10'd25;
-  localparam [9:0] HEIGHT       = 10'd60;
+//   localparam [9:0] TOP_X        = 10'd100;
+//   localparam [9:0] TOP_Y        = 10'd180;
+//   localparam [9:0] BOTTOM_X     = 10'd540;
+//   localparam [9:0] BOTTOM_Y     = 10'd400;
+//   localparam [9:0] BAR_WIDTH    = 10'd40;
+//   localparam [9:0] VISIBLE_WIDTH= 10'd25;
+//   localparam [9:0] HEIGHT       = 10'd60;
 
-  double_sin dut_double_sin (
-      .pix_x(pix_x),
-      .pix_y(pix_y),
-      .x_offset(x_offset),
-      .top_x(TOP_X),
-      .top_y(TOP_Y),
-      .bottum_x(BOTTOM_X),
-      .bottum_y(BOTTOM_Y),
-      .bar_width(BAR_WIDTH),
-      .visible_width(VISIBLE_WIDTH),
-      .height(HEIGHT),
-      .draw_double_sin(draw_double_sin)
-  );
+//   double_sin dut_double_sin (
+//       .pix_x(pix_x),
+//       .pix_y(pix_y),
+//       .x_offset(x_offset),
+//       .top_x(TOP_X),
+//       .top_y(TOP_Y),
+//       .bottum_x(BOTTOM_X),
+//       .bottum_y(BOTTOM_Y),
+//       .bar_width(BAR_WIDTH),
+//       .visible_width(VISIBLE_WIDTH),
+//       .height(HEIGHT),
+//       .draw_double_sin(draw_double_sin)
+//   );
 
-  // ----------------------------------------
-  // Testing sine_lut
-  // ----------------------------------------
+//   // ----------------------------------------
+//   // Testing sine_lut
+//   // ----------------------------------------
 
-  sine_lut lut_for_test (
-      .pos(tb_pos),
-      .sin_output(tb_sin_output)
-  );
+//   sine_lut lut_for_test (
+//       .pos(tb_pos),
+//       .sin_output(tb_sin_output)
+//   );
 
-`endif
+// `endif
 
 endmodule
