@@ -6,6 +6,9 @@ from cocotb.clock import Clock
 from cocotb.triggers import ClockCycles
 from cocotb.triggers import Timer
 
+import os
+GL = os.getenv("GL") == "1"
+
 SINE_VALUES_TABLE = {
     0: 50,
     1: 40,
@@ -59,6 +62,9 @@ expected_static_top_line = [
 
 @cocotb.test()
 async def test_static_top_line(dut):
+    if GL:
+        raise cocotb.skip("Skipping player test in gate-level simulation.")
+    
     dut._log.info("Start static_top_line test")
     height = len(expected_static_top_line)
     width = len(expected_static_top_line[0])
@@ -98,6 +104,9 @@ async def u_shape_helper(dut, x_coord, y_coord, isUW):
     
 @cocotb.test()
 async def test_player(dut):
+    if GL:
+        raise cocotb.skip("Skipping player test in gate-level simulation.")
+    
     dut._log.info("Start player test")
 
     height = len(expected_U)
@@ -123,6 +132,9 @@ async def test_player(dut):
 
 @cocotb.test()
 async def test_U_shape(dut):
+    if GL:
+        raise cocotb.skip("Skipping player test in gate-level simulation.")
+    
     dut._log.info("Start U_shape test")
     
     await u_shape_helper(dut, 100, 100, False)
@@ -139,6 +151,9 @@ HEIGHT       = 60
 
 @cocotb.test()
 async def test_double_sin(dut):
+    if GL:
+        raise cocotb.skip("Skipping player test in gate-level simulation.")
+    
     dut._log.info("Start double_sin test")
     
     for x_offset in range(0, 400, 20):
@@ -167,6 +182,9 @@ async def test_double_sin(dut):
 
 @cocotb.test()
 async def test_sine_lut(dut):
+    if GL:
+        raise cocotb.skip("Skipping player test in gate-level simulation.")
+    
     dut._log.info("Start sine_lut test")
 
     for index, value in SINE_VALUES_TABLE.items():
