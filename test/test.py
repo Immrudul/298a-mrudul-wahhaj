@@ -6,7 +6,6 @@ import os
 from cocotb.clock import Clock
 from cocotb.triggers import ClockCycles
 from cocotb.triggers import Timer
-from cocotb.result import SimSkip
 
 SINE_VALUES_TABLE = {
     0: 50,
@@ -183,7 +182,7 @@ SINE_VALUES_TABLE = {
 async def test_sine_lut(dut):
 
     if os.getenv("GATES") == "yes":
-        raise SimSkip("Skipping sine_lut test in gate-level simulation.")
+        raise cocotb.skip("Skipping sine_lut test in gate-level simulation.")
     
     dut._log.info("Start sine_lut test")
 
