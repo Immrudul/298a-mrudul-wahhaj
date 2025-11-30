@@ -76,15 +76,15 @@ async def test_static_top_line(dut):
             
             actual = bool(dut.draw_line.value)
 
-            new_x = (y - 10) // 8
-            new_y = (x - 250) // 8
+            new_y = (y - 10) // 8
+            new_x = (x - 250) // 8
             
             # Mirror the right half because the hardware mirrors left-half storage
             if new_x >= 7:
                 new_x = 13 - new_x
 
             assert actual == bool(expected_static_top_line[new_y][new_x]), \
-                f"ERROR: For for coords: ({x}, {y}, got {actual}, expected {bool(expected_static_top_line[(y - 10)//8][(x - 250)//8])})"
+                f"ERROR: For for coords: ({x}, {y}, got {actual}, expected {bool(expected_static_top_line[new_y][new_x])})"
     
     dut._log.info("static_top_line passed")
 
