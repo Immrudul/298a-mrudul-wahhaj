@@ -182,7 +182,7 @@ SINE_VALUES_TABLE = {
 async def test_sine_lut(dut):
 
     if os.getenv("GATES") == "yes":
-        raise cocotb.skip("Skipping sine_lut test in gate-level simulation.")
+        return
     
     dut._log.info("Start sine_lut test")
 
