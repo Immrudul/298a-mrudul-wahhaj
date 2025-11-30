@@ -10,7 +10,7 @@ from cocotb.triggers import Timer
 SINE_VALUES_TABLE = {
     0: 50,
     1: 40,
-    2: 30,
+    2: 30, 
     3: 20,
     4: 10,
     5: 0,
