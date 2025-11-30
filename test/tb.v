@@ -54,8 +54,6 @@ module tb ();
 //   reg  [9:0] x_pos;
 //   reg  [9:0] y_pos;
 
- reg  [3:0] pos;
- wire [7:0] sin_output;
 
 //  reg draw_line;
 //  reg draw_player;
@@ -64,6 +62,9 @@ module tb ();
    
 
  `ifndef GL_TEST
+
+    reg  [3:0] pos;
+ wire [7:0] sin_output;
 
 //   // ----------------------------------------
 //   // Testing For double_sin
