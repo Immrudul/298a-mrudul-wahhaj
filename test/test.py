@@ -2,6 +2,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 import cocotb
+import os
 from cocotb.clock import Clock
 from cocotb.triggers import ClockCycles
 from cocotb.triggers import Timer
@@ -179,15 +180,19 @@ SINE_VALUES_TABLE = {
 
 @cocotb.test()
 async def test_sine_lut(dut):
+
+    if os.getenv("GATES") == "yes":
+        raise cocotb.skip("Skipping sine_lut test in gate-level simulation.")
+    
     dut._log.info("Start sine_lut test")
 
     for index, value in SINE_VALUES_TABLE.items():
-        dut.tb.pos.value = index
+        dut.pos.value = index
 
         # No clock in this module → allow time to settle
         await Timer(1, units="ns")
 
-        actual = int(dut.tb.sin_output.value)
+        actual = int(dut.sin_output.value)
         dut._log.info(f"pos={index} → sin_output={actual}, value={value}")
 
         assert actual == value, \
