@@ -76,8 +76,8 @@ async def test_static_top_line(dut):
             
             actual = bool(dut.draw_line.value)
 
-            assert actual == bool(expected_static_top_line[y//8][x//8]), \
-                f"ERROR: For for coords: ({x}, {y}, got {actual}, expected {bool(expected_static_top_line[y//8][x//8])})"
+            assert actual == bool(expected_static_top_line[(y - 10)//8][(x - 250)//8]), \
+                f"ERROR: For for coords: ({x}, {y}, got {actual}, expected {bool(expected_static_top_line[(y - 10)//8][(x - 250)//8])})"
     
     dut._log.info("static_top_line passed")
 
