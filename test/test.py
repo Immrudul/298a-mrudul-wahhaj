@@ -182,12 +182,12 @@ async def test_sine_lut(dut):
     dut._log.info("Start sine_lut test")
 
     for index, value in SINE_VALUES_TABLE.items():
-        dut.pos.value = index
+        dut.tb.pos.value = index
 
         # No clock in this module → allow time to settle
         await Timer(1, units="ns")
 
-        actual = int(dut.sin_output.value)
+        actual = int(dut.tb.sin_output.value)
         dut._log.info(f"pos={index} → sin_output={actual}, value={value}")
 
         assert actual == value, \
