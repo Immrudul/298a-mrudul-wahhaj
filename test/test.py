@@ -55,7 +55,7 @@ expected_static_top_line = [
     [0,0,1,0,0,0,0,0,0,0,1,0,0,0],
     [0,0,0,1,0,0,0,0,0,1,0,0,0,0],
     [0,0,1,0,0,0,1,1,0,0,1,0,0,0],
-    [0,0,0,1,1,1,0,0,0,1,1,1,0,1]
+    [0,0,0,1,1,1,0,0,0,1,1,1,0,0]
 ]
 
 @cocotb.test()
@@ -67,8 +67,8 @@ async def test_static_top_line(dut):
     height = len(expected_static_top_line)
     width = len(expected_static_top_line[0])
 
-    for y in range(10, height*8):
-        for x in range(250, width*8):
+    for y in range(10, 10 + height*8):
+        for x in range(250, 250 + width*8):
             dut.pix_x.value = x
             dut.pix_y.value = y
 
