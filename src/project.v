@@ -5,7 +5,7 @@
 
 `default_nettype none
 
-module tt_um_example (
+module tt_um_immrudul_w7khan (
   input  wire [7:0] ui_in,    // Unused inputs
   output wire [7:0] uo_out,   // VGA PMOD outputs
   input  wire [7:0] uio_in,   // Unused bidirectional IOs
