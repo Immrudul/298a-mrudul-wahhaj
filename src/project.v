@@ -102,10 +102,9 @@ module tt_um_immrudul_w7khan (
   // it looks at the animation shift x_offset
   // it outputs draw_sin = 1 when the sine wave should be drawn
 
-  Otherwise outputs 0
   wire draw_sin;
   create_game_scene scene(
-    .pix_x(pix_x),
+    .pix_x(pix_x),s
     .pix_y(pix_y),
     .x_offset(x_offset),
     .draw_sin(draw_sin)
