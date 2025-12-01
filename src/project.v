@@ -104,7 +104,7 @@ module tt_um_immrudul_w7khan (
 
   wire draw_sin;
   create_game_scene scene(
-    .pix_x(pix_x),s
+    .pix_x(pix_x),
     .pix_y(pix_y),
     .x_offset(x_offset),
     .draw_sin(draw_sin)
