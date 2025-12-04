@@ -127,14 +127,14 @@ Clock frequency: 25mHz
 
 Below is a week by week breakdown of what we achieved and what we worked on.
 
-Oct 12 - 19: Reading week
-Oct 19 - 26: Creating the sine waves for the pillars
-Oct 26 - Nov 2: Animating the movement, looping the sine waves smoothly
-Nov 2 - Nov 9: Implementing the UW character and Sans Goose, making things look better
-Nov 9 - Nov 16: Creating gds, memory optimization
-Nov 16 - 23: Testing using CocoTB, testing on UW-ASIC emulator
-Nov 23 - Nov 30: Code cleanup, code commenting, documentation
-Nov 30 - Dec 7: Done and present!
+- Oct 12 - 19: Reading week
+- Oct 19 - 26: Creating the sine waves for the pillars
+- Oct 26 - Nov 2: Animating the movement, looping the sine waves smoothly
+- Nov 2 - Nov 9: Implementing the UW character and Sans Goose, making things look better
+- Nov 9 - Nov 16: Creating gds, memory optimization
+- Nov 16 - 23: Testing using CocoTB, testing on UW-ASIC emulator
+- Nov 23 - Nov 30: Code cleanup, code commenting, documentation
+- Nov 30 - Dec 7: Done and present!
 
 ## Conclusion
 
